@@ -5,7 +5,7 @@
 
 #include "base_allocator.h"
 
-#define MIN_FRAG = 64
+#define MIN_FRAG 64
 
 template<size_t minBlockSize, size_t maxBlockSize, size_t minFrag = MIN_FRAG>
 class LinearAllocator

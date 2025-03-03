@@ -1,6 +1,7 @@
 #pragma once
 
 #include "base_allocator.h"
+#include <climits>
 
 #define MALLOCATOR_MAX UINT_MAX
 

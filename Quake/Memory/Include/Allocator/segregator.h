@@ -21,7 +21,7 @@ public:
 	virtual bool deallocate				(Block& block) override;
 	virtual bool deallocateAll			(void) override;
 	virtual bool reallocate				(Block& block, size_t newSize) override;
-	virtual bool realloateAll			(size_t newSize) override;
+	virtual bool reallocateAll			(size_t newSize) override;
 	virtual bool owns					(Block block) override;
 	virtual void expand					(size_t amount) override;
 

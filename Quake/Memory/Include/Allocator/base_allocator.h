@@ -2,6 +2,7 @@
 
 #include <string>
 #include <type_traits>
+#include <cstdint>
 
 #include "..\..\..\common.h"
 #include "..\..\..\Container\Include\qbool.h"
@@ -30,7 +31,7 @@ struct Block
 	Block(void* mem, size_t len)
 		: memory(mem), length(len) {}
 	Block()
-		: memory(nullptr), length() {}
+		: memory(nullptr), length(0) {}
 
 	void free()
 	{
@@ -57,15 +58,20 @@ struct Batch
 	Batch(size_t sz)
 		: blocks(new Block[sz]), size(sz) {}
 	Batch()
-		: blocks(nullptr), size() {}
+		: blocks(nullptr), size(0) {}
+
+	~Batch()
+	{
+		delete[] blocks;
+	}
 
 	Block& operator[](size_t index)
 	{
-		return index >= 0 && index <= size ?
+		return index >= 0 && index < size ?
 			blocks[index] : UNALLOCATED_BLOCK;
 	}
 
-	operator bool()
+	operator bool() const
 	{
 		return blocks && size;
 	}
@@ -88,7 +94,7 @@ enum ALLOCATION_SIZES
 };
 
 enum ALLOCATOR_INIT_STATUS
-	: int8
+	: int8_t
 {
 	NONE = -1,
 	SUCCESS = 0,
@@ -99,7 +105,7 @@ enum ALLOCATOR_INIT_STATUS
 };
 
 enum class ALLOCATOR_ID
-	: int8
+	: int8_t
 {
 	NULL_ALLOCATOR = 0,
 	MALLOCATOR = 1,
@@ -112,23 +118,23 @@ enum class ALLOCATOR_ID
 	AFFIX = 8
 };
 
-//std::string aisToString(ALLOCATOR_INIT_STATUS status)
-//{
-//	switch (status)
-//	{
-//	case ALLOCATOR_INIT_STATUS::NONE:
-//		return "NONE";
-//	case ALLOCATOR_INIT_STATUS::SUCCESS:
-//		return "SUCCESS";
-//	case ALLOCATOR_INIT_STATUS::ALREADY_INITIALIZED:
-//		return "ALREADY INITIALIZED";
-//	case ALLOCATOR_INIT_STATUS::BAD_CAPACITY:
-//		return "BAD CAPACITY";
-//	case ALLOCATOR_INIT_STATUS::BAD_MEMORY:
-//		return "BAD MEMORY";
-//	case ALLOCATOR_INIT_STATUS::INTERNAL_ERROR:
-//		return "INTERNAL ERROR";
-//	default:
-//		return "NULL STATUS";
-//	}
-//}
+std::string aisToString(ALLOCATOR_INIT_STATUS status)
+{
+	switch (status)
+	{
+	case ALLOCATOR_INIT_STATUS::NONE:
+		return "NONE";
+	case ALLOCATOR_INIT_STATUS::SUCCESS:
+		return "SUCCESS";
+	case ALLOCATOR_INIT_STATUS::ALREADY_INITIALIZED:
+		return "ALREADY INITIALIZED";
+	case ALLOCATOR_INIT_STATUS::BAD_CAPACITY:
+		return "BAD CAPACITY";
+	case ALLOCATOR_INIT_STATUS::BAD_MEMORY:
+		return "BAD MEMORY";
+	case ALLOCATOR_INIT_STATUS::INTERNAL_ERROR:
+		return "INTERNAL ERROR";
+	default:
+		return "NULL STATUS";
+	}
+}

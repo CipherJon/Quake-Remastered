@@ -6,6 +6,7 @@ template<size_t min,
 	size_t max>
 class LaxFreeList
 {
+public:
 	inline LaxFreeList(size_t capacity);
 	inline ~LaxFreeList();
 
@@ -13,7 +14,10 @@ class LaxFreeList
 	inline void deallocate(Block& block);
 	inline QBool owns(Block block) const;
 	void destroy();
+
 private:
 	Node* _getNext(Node* current);
 	void _setNext(Node* current, Node* next);
+
+	// Add any additional private members or methods needed
 };
