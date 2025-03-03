@@ -48,6 +48,24 @@
     <ClCompile Include="Tests\Container\test_qstring.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Tests\Container\test_forward_list.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Tests\Container\test_qforward_list.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Tests\Container\test_stack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Tests\Container\test_vector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Quake\Auxiliary\Source\string_aux.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Quake\IO\Source\file.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Quake\Memory\Source\Allocator\fallback_allocator.inl">
@@ -74,25 +92,22 @@
     <None Include="Quake\Memory\Source\Internal\stack.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="Quake\Math\Source\vector2.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Quake\Math\Source\vector3.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="Quake\Math\Source\vector4.inl">
-      <Filter>Header Files</Filter>
-    </None>
     <None Include="Quake\Container\Source\base.inl">
       <Filter>Header Files</Filter>
     </None>
     <None Include="Quake\Container\Source\iterator.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="Quake\Container\Source\qarray.inl">
+    <None Include="Quake\Container\Source\forward_list.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="Quake\Container\Source\qstack.inl">
+    <None Include="Quake\Container\Source\stack.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Quake\Container\Source\string.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="Quake\Container\Source\vector.inl">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>
@@ -212,6 +227,27 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Quake\UI\Include\Windows\windows_defs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Quake\Container\Include\ccontainers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Quake\Container\Include\forward_list.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Quake\Container\Include\stack.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Quake\Container\Include\string.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Quake\Container\Include\vector.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Quake\Engine\Include\clock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Quake\IO\Include\file.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -118,15 +118,20 @@
     <ClCompile Include="Quake\Memory\Source\Internal\boolset.cpp" />
     <ClCompile Include="Quake\UI\Source\OpenGL\opengl_context.cpp" />
     <ClCompile Include="Tests\Container\test_qstring.cpp" />
+    <ClCompile Include="Tests\Container\test_forward_list.cpp" />
+    <ClCompile Include="Tests\Container\test_qforward_list.cpp" />
+    <ClCompile Include="Tests\Container\test_stack.cpp" />
+    <ClCompile Include="Tests\Container\test_vector.cpp" />
+    <ClCompile Include="Quake\Auxiliary\Source\string_aux.cpp" />
+    <ClCompile Include="Quake\IO\Source\file.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Quake\Container\Source\base.inl" />
     <None Include="Quake\Container\Source\iterator.inl" />
-    <None Include="Quake\Container\Source\qarray.inl" />
-    <None Include="Quake\Container\Source\qstack.inl" />
-    <None Include="Quake\Math\Source\vector2.inl" />
-    <None Include="Quake\Math\Source\vector3.inl" />
-    <None Include="Quake\Math\Source\vector4.inl" />
+    <None Include="Quake\Container\Source\forward_list.inl" />
+    <None Include="Quake\Container\Source\stack.inl" />
+    <None Include="Quake\Container\Source\string.inl" />
+    <None Include="Quake\Container\Source\vector.inl" />
     <None Include="Quake\Memory\Source\Allocator\fallback_allocator.inl" />
     <None Include="Quake\Memory\Source\Allocator\freelist.inl" />
     <None Include="Quake\Memory\Source\Allocator\lax_freelist.inl" />
@@ -149,14 +154,19 @@
     <ClInclude Include="Quake\Container\Include\qstring.h" />
     <ClInclude Include="Quake\Container\Include\qvector.hpp" />
     <ClInclude Include="Quake\common.h" />
-    <ClInclude Include="core\container\include\qhash_string.h" />
     <ClInclude Include="Quake\Exception\error.h" />
     <ClInclude Include="Quake\Game\Include\game.h" />
     <ClInclude Include="Quake\Game\Include\window.h" />
     <ClInclude Include="Quake\Auxiliary\Include\string_aux.h" />
-    <ClInclude Include="Quake\IO\Include\file.hpp" />
+    <ClInclude Include="Quake\IO\Include\file.h" />
     <ClInclude Include="Quake\Math\Include\math.h" />
-    <ClInclude Include="Math\Include\vector.hpp" />
+    <ClInclude Include="Quake\Math\Include\vector.hpp" />
+    <ClInclude Include="Quake\Container\Include\ccontainers.h" />
+    <ClInclude Include="Quake\Container\Include\forward_list.hpp" />
+    <ClInclude Include="Quake\Container\Include\stack.hpp" />
+    <ClInclude Include="Quake\Container\Include\string.hpp" />
+    <ClInclude Include="Quake\Container\Include\vector.hpp" />
+    <ClInclude Include="Quake\Engine\Include\clock.h" />
     <ClInclude Include="Quake\Memory\Include\Allocator\affix_allocator.h" />
     <ClInclude Include="Quake\Memory\Include\Allocator\base_allocator.h" />
     <ClInclude Include="Quake\Memory\Include\Allocator\fallback_allocator.h" />
@@ -171,7 +181,6 @@
     <ClInclude Include="Quake\Memory\Include\Internal\auxiliary.h" />
     <ClInclude Include="Quake\Memory\Include\Internal\batch_queue.hpp" />
     <ClInclude Include="Quake\Memory\Include\Internal\boolset.h" />
-    <ClInclude Include="memory\internal\include\reallocator.h" />
     <ClInclude Include="Quake\Memory\Include\Internal\stack.hpp" />
     <ClInclude Include="Quake\Memory\Include\Internal\traits.h" />
     <ClInclude Include="Quake\UI\Include\OpenGL\opengl_context.h" />
