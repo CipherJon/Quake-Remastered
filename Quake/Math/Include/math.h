@@ -2,7 +2,7 @@
 
 #include "..\..\common.h"
 
-#define PI = 3.14159265358979323846
+#define PI 3.14159265358979323846
 
 namespace math
 {
@@ -13,12 +13,14 @@ namespace math
 
 	inline float64 pow(float64 x, int32 p)
 	{
-		float64 n = x;
-		for (int32 i = 1; i < math::abs(p); i++)
+		if (p == 0) return 1;
+		float64 n = 1;
+		int32 abs_p = math::abs(p);
+		for (int32 i = 0; i < abs_p; i++)
 		{
 			n *= x;
 		}
-		return(n);
+		return (p > 0) ? n : 1 / n;
 	}
 
 	inline float64 squared(float64 x)
@@ -48,10 +50,8 @@ namespace math
 		}
 	}
 
-	inline float64 __declspec (naked) __fastcall sqrt(float64 n)
+	inline float64 sqrt(float64 n)
 	{
-		_asm fld qword ptr[esp + 4]
-			_asm fsqrt
-		_asm ret 8
+		return ::sqrt(n); // Use the standard library sqrt function
 	}
 }

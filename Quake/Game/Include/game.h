@@ -6,7 +6,7 @@
 #include <iostream>
 
 /*Custom Library*/
-#include "..\..\common.h"
+#include "../../common.h"
 #include "window.h"
 
 /*
@@ -20,11 +20,16 @@ Game
 class Game
 {
 public:
-	//Game			(const StringVec& argv);
-	void init		(void);
+	// Constructor
+	explicit Game(const StringVec& argv);
 
-	//void registerVariable(Cvar variable);
+	// Initialize the game
+	void init(void);
+
+	// Register a variable
+	void registerVariable(Cvar variable);
+
 private:
-	//StringVec		_argv;
-	sys::Window		_window;
+	StringVec _argv;       // Command-line arguments
+	sys::Window _window;   // Game window
 };

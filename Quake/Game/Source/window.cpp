@@ -1,4 +1,4 @@
-#include "..\Include\window.h"
+#include "../Include/window.h"
 
 /*
 ==================================
@@ -36,27 +36,15 @@ namespace sys
 	}
 	bool Window::create(int width, int height, const std::string& title)
 	{
-		_glfwWindow = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
-		if (_glfwWindow)
-		{
-			_isOpen = true;
-			_size = glm::ivec2(width, height);
-			_title = title;
-			glfwMakeContextCurrent(_glfwWindow);
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return create(glm::ivec2(width, height), title);
 	}
 	void Window::close(void)
 	{
 		if (_glfwWindow)
 		{
 			_isOpen = false;
-			_size = glm::ivec2();
 			glfwDestroyWindow(_glfwWindow);
+			_glfwWindow = nullptr;
 		}
 	}
 	void Window::pollEvents(void)
@@ -65,23 +53,34 @@ namespace sys
 	}
 	void Window::swapBuffers(void)
 	{
-		glfwSwapBuffers(_glfwWindow);
+		if (_glfwWindow)
+		{
+			glfwSwapBuffers(_glfwWindow);
+		}
 	}
 	void Window::setTitle(const std::string& title)
 	{
 		_title = title;
+		if (_glfwWindow)
+		{
+			glfwSetWindowTitle(_glfwWindow, title.c_str());
+		}
 	}
 	void Window::setSize(glm::ivec2 size)
 	{
 		_size = size;
+		if (_glfwWindow)
+		{
+			glfwSetWindowSize(_glfwWindow, size.x, size.y);
+		}
 	}
 	void Window::setWidth(int width)
 	{
-		_size.x = width;
+		setSize(glm::ivec2(width, _size.y));
 	}
 	void Window::setHeight(int height)
 	{
-		_size.y = height;
+		setSize(glm::ivec2(_size.x, height));
 	}
 	GLFWwindow* Window::getWindow(void) const
 	{

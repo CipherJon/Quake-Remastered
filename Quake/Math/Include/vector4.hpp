@@ -1,6 +1,7 @@
 #pragma once
 
 #include "math.h"
+#include <cmath> // Ensure this is included if using standard math functions
 
 namespace math
 {

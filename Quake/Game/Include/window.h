@@ -1,15 +1,15 @@
 #pragma once
 
 /*OpenGL Libraries*/
-#include <GL\glew.h>
-#include <GLFW\glfw3.h>
-#include <glm\glm.hpp>
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
 
 /*Standard Libraries*/
 #include <string>
 
 /*Custom Library*/
-#include "..\..\common.h"
+#include "../../common.h"
 
 /*
 ==================================
@@ -27,27 +27,41 @@ namespace sys
 	class Window
 	{
 	public:
-		Window								(void);
-		~Window								(void);
+		// Constructor
+		Window(void);
 
-		bool create							(glm::ivec2 size, const std::string& title);
-		bool create							(int width, int height, const std::string& title);
-		void close							(void);
+		// Destructor
+		~Window(void);
 
-		void pollEvents						(void);
-		void swapBuffers					(void);
+		// Create a window with specified size and title
+		bool create(glm::ivec2 size, const std::string& title);
+		bool create(int width, int height, const std::string& title);
 
-		void setTitle						(const std::string& title);
-		void setSize						(glm::ivec2 size);
-		void setWidth						(int width);
-		void setHeight						(int height);
+		// Close the window
+		void close(void);
 
-		GLFWwindow* getWindow				(void) const;
-		const std::string& getTitle			(void) const;
-		glm::vec2 getSize					(void) const;
-		int getWidth						(void) const;
-		int getHeight						(void) const;
-		bool isOpen							(void) const;
+		// Poll for and process events
+		void pollEvents(void);
+
+		// Swap front and back buffers
+		void swapBuffers(void);
+
+		// Set window title
+		void setTitle(const std::string& title);
+
+		// Set window size
+		void setSize(glm::ivec2 size);
+		void setWidth(int width);
+		void setHeight(int height);
+
+		// Getters
+		GLFWwindow* getWindow(void) const;
+		const std::string& getTitle(void) const;
+		glm::vec2 getSize(void) const;
+		int getWidth(void) const;
+		int getHeight(void) const;
+		bool isOpen(void) const;
+
 	private:
 		GLFWwindow*				_glfwWindow;
 		std::string				_title;
