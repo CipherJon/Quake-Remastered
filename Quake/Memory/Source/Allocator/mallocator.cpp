@@ -1,7 +1,7 @@
 #include "..\..\Include\Allocator\mallocator.h"
 
 MAllocator::MAllocator()
-	: _numAllocations()
+	: _numAllocations(0)
 {
 }
 
@@ -12,16 +12,17 @@ Block MAllocator::allocate(size_t size)
 	{
 		Block block(mem, size);
 		_numAllocations++;
-		return(block);
+		return block;
 	}
-	return(UNALLOCATED_BLOCK);
+	return Block(nullptr, 0);
 }
 
 void MAllocator::deallocate(Block& block)
 {
-	if (_numAllocations && block)
+	if (_numAllocations && block.memory)
 	{
 		free(block.memory);
+		block.memory = nullptr;
 		block.length = 0;
 		_numAllocations--;
 	}
@@ -29,6 +30,7 @@ void MAllocator::deallocate(Block& block)
 
 void MAllocator::destroy()
 {
+	// Implement any necessary cleanup here
 }
 
 ALLOCATOR_ID MAllocator::getID() const

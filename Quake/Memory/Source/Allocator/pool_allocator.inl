@@ -2,7 +2,7 @@
 
 template<typename TBlock>
 PoolAllocator<TBlock>::PoolAllocator(size_t capacity)
-	: _capacity(), _memoryUsed(), _numBlocks(), _numAllocated(),
+	: _capacity(0), _memoryUsed(0), _numBlocks(0), _numAllocated(0),
 	_memory(nullptr), _freeList(), _isInitialized(false)
 {
 	_trueSize = sizeof(TBlock);
@@ -32,7 +32,7 @@ Block PoolAllocator<TBlock>::allocate()
 		_incrementNumAllocated();
 		return _freeList.deallocate();
 	}
-	return UNALLOCATED_BLOCK;
+	return Block(nullptr, 0);
 }
 
 template<typename TBlock>
@@ -41,7 +41,8 @@ void PoolAllocator<TBlock>::deallocate(Block& block)
 	if (_isInitialized && owns(block))
 	{
 		_freeList.allocate(block);
-		block.free();
+		block.memory = nullptr;
+		block.length = 0;
 		_subtractMemoryUsed(_blockSize);
 		_decrementNumAllocated();
 	}
@@ -50,11 +51,6 @@ void PoolAllocator<TBlock>::deallocate(Block& block)
 template<typename TBlock>
 Batch PoolAllocator<TBlock>::batchAllocate(size_t size)
 {
-	static bool start = false;
-	if (start)
-	{
-		std::cout << _numAllocated << std::endl;
-	}
 	size_t allocSize = size * _blockSize;
 	if (_isInitialized && _hasSpace(allocSize))
 	{
@@ -65,34 +61,32 @@ Batch PoolAllocator<TBlock>::batchAllocate(size_t size)
 			for (size_t i = 0; i < numToAlloc; i++)
 			{
 				blocks[i] = _freeList.deallocate();
-				//std::cout << _freeList.getMemoryUsed() << std::endl;
 			}
 			_addMemoryUsed(allocSize);
 			_addNumAllocated(numToAlloc);
-			start = true;
 			return Batch(blocks, size);
 		}
 	}
-	return UNALLOCATED_BATCH;
+	return Batch(nullptr, 0);
 }
 
 template<typename TBlock>
 void PoolAllocator<TBlock>::batchDeallocate(Batch& batch)
 {
 	size_t size = batch.size;
-	if (_isInitialized && batch && _freeList.hasSpaceFor(size))
+	if (_isInitialized && batch.blocks && _freeList.hasSpaceFor(size))
 	{
 		size_t allocSize = 0;
 		for (size_t i = 0; i < size; i++)
 		{
-			if (_freeList.owns(batch[i]))
+			if (_freeList.owns(batch.blocks[i]))
 			{
-				_freeList.allocate(batch[i]);
+				_freeList.allocate(batch.blocks[i]);
 				allocSize += _blockSize;
 			}
 		}
 		delete[] batch.blocks;
-		//std::cout << allocSize << std::endl;
+		batch.blocks = nullptr;
 		_subtractMemoryUsed(allocSize);
 		_subtractNumAllocated(size);
 	}
@@ -153,6 +147,7 @@ template<typename TBlock>
 void PoolAllocator<TBlock>::destroy()
 {
 	delete[] _memory;
+	_memory = nullptr;
 	_isInitialized = false;
 }
 

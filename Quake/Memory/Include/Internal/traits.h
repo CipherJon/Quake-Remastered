@@ -93,7 +93,7 @@ namespace traits
 		/tparam -	reference to the allocateAll() method
 		/r			the method was not found in the class
 		*/
-		template<typename U> static constexpr bool test(...) { return No; }
+		template<typename U> static constexpr bool test(...) { return NO; }
 	public:
 		/*
 		The outcome of the search.
@@ -132,7 +132,7 @@ namespace traits
 		/tparam -	reference to the deallocate(Block&) method
 		/r -		the method was not found in the class
 		*/
-		template<typename U> static constexpr bool test(...) { return No; }
+		template<typename U> static constexpr bool test(...) { return NO; }
 	public:
 		/*
 		The outcome of the search.
@@ -170,7 +170,7 @@ namespace traits
 		/tparam -	reference to the deallocateAll() method
 		/r -		the method does not exist
 		*/
-		template<typename U> static constexpr bool test(...) { return No; }
+		template<typename U> static constexpr bool test(...) { return NO; }
 	public:
 		/*
 		The outcome of the search.
@@ -209,7 +209,7 @@ namespace traits
 		/tparam -	reference to the reallocate(Block&, size_t) method
 		/r -		the method does not exist in the class
 		*/
-		template<typename U> static constexpr bool test(...) { return No; }
+		template<typename U> static constexpr bool test(...) { return NO; }
 	public:
 		/*
 		The outcome of the search.
@@ -248,7 +248,7 @@ namespace traits
 		/tparam -	reference to the reallocate(size_t) method
 		/r -		the method was not found in the class
 		*/
-		template<typename U> static constexpr bool test(...) { return No; }
+		template<typename U> static constexpr bool test(...) { return NO; }
 	public:
 		/*
 		The outcome of the search.
@@ -287,7 +287,7 @@ namespace traits
 		/tparam -	reference to the owns(Block) method
 		/r -		the method was not found in the class
 		*/
-		template<typename U> static constexpr bool test(...) { return No; }
+		template<typename U> static constexpr bool test(...) { return NO; }
 	public:
 		/*
 		The outcome of the search.
@@ -318,7 +318,7 @@ namespace traits
 		/tparam -	reference to the expand(size_t) method
 		/r -		the method exists in the class
 		*/
-		template<typename U> static constexpr bool test(TCheck<U, &U::owns>*) { return YES; }
+		template<typename U> static constexpr bool test(TCheck<U, &U::expand>*) { return YES; }
 
 		/*
 		If expand(size_t) was not found...
@@ -326,7 +326,7 @@ namespace traits
 		/tparam -	reference to the expand(size_t) method
 		/r -		the method was not found in the class
 		*/
-		template<typename U> static constexpr bool test(...) { return No; }
+		template<typename U> static constexpr bool test(...) { return NO; }
 	public:
 		/*
 		The outcome of the search.
@@ -373,7 +373,7 @@ namespace traits
 	{
 		static Block execute(Allocator& allocator, size_t size)
 		{
-			return(allocator.allocate(size));
+			return allocator.allocate(size);
 		}
 	};
 
@@ -389,7 +389,7 @@ namespace traits
 	{
 		static Block execute(Allocator& allocator, size_t size)
 		{
-			return(nullptr);
+			return nullptr;
 		}
 	};
 
@@ -428,7 +428,7 @@ namespace traits
 	{
 		static bool execute(Allocator& allocator, size_t size)
 		{
-			allocator.allocateAll(size);
+			return allocator.allocateAll(size);
 		}
 	};
 
@@ -444,7 +444,7 @@ namespace traits
 	{
 		static bool execute(Allocator& allocator, size_t size)
 		{
-			return(false);
+			return false;
 		}
 	};
 
@@ -482,7 +482,7 @@ namespace traits
 	{
 		static void execute(Allocator& allocator, Block& block)
 		{
-			allocate.deallocate(block);
+			allocator.deallocate(block);
 		}
 	};
 
@@ -535,7 +535,7 @@ namespace traits
 	{
 		static bool execute(Allocator& allocator)
 		{
-			return(allocator.deallocateAll());
+			return allocator.deallocateAll();
 		}
 	};
 
@@ -551,7 +551,7 @@ namespace traits
 	{
 		static bool execute(Allocator& allocator)
 		{
-			return(false);
+			return false;
 		}
 	};
 
@@ -590,7 +590,7 @@ namespace traits
 	{
 		static bool execute(Allocator& allocator, Block& block, size_t newSize)
 		{
-			return(allocate.reallocate(block, newSize));
+			return allocator.reallocate(block, newSize);
 		}
 	};
 
@@ -606,7 +606,7 @@ namespace traits
 	{
 		static bool execute(Allocator& allocator, Block& block, size_t newSize)
 		{
-			return(false);
+			return false;
 		}
 	};
 
@@ -646,7 +646,7 @@ namespace traits
 	{
 		static bool execute(Allocator& allocator, size_t newSize)
 		{
-			return(allocator.reallocateAll(newSize));
+			return allocator.reallocateAll(newSize);
 		}
 	};
 
@@ -662,7 +662,7 @@ namespace traits
 	{
 		static bool execute(Allocator& allocator, size_t newSize)
 		{
-			return(false);
+			return false;
 		}
 	};
 
@@ -701,7 +701,7 @@ namespace traits
 	{
 		static bool execute(Allocator& allocator, Block block)
 		{
-			return(allocator.owns(block));
+			return allocator.owns(block);
 		}
 	};
 
@@ -717,7 +717,7 @@ namespace traits
 	{
 		static bool execute(Allocator& allocator, Block block)
 		{
-			return(false);
+			return false;
 		}
 	};
 

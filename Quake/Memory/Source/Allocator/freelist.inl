@@ -1,16 +1,16 @@
 #include "..\..\Include\Allocator\freelist.hpp"
 
 FreeList::FreeList()
-	: _root(nullptr), _capacity(), 
-	_blockSize(), _numAllocated(), _numNodes(), 
-	_memoryUsed(), _isInitialized(false)
+	: _root(nullptr), _capacity(0), 
+	_blockSize(0), _numAllocated(0), _numNodes(0), 
+	_memoryUsed(0), _isInitialized(false)
 {
 }
 
 FreeList::FreeList(size_t capacity,size_t blockSize)
-	: _root(nullptr), _capacity(), 
-	_blockSize(), _numAllocated(), _numNodes(), 
-	_memoryUsed(), _isInitialized(false)
+	: _root(nullptr), _capacity(0), 
+	_blockSize(0), _numAllocated(0), _numNodes(0), 
+	_memoryUsed(0), _isInitialized(false)
 {
 	init(capacity, blockSize);
 }
@@ -39,7 +39,7 @@ Block FreeList::deallocate()
 		_subtractMemoryUsed();
 		return block;
 	}
-	return UNALLOCATED_BLOCK;
+	return Block(nullptr, 0);
 }
 
 void FreeList::init(size_t capacity, size_t blockSize)
@@ -72,17 +72,17 @@ QBool FreeList::isFull() const
 
 QBool FreeList::hasSpaceFor(size_t num) const
 {
-	return _numAllocated - num >= 0;
+	return (_capacity - _memoryUsed) >= (num * _blockSize);
 }
 
 QBool FreeList::hasNumFree(size_t num) const
 {
-	return _numAllocated >= num;
+	return (_numNodes - _numAllocated) >= num;
 }
 
 QBool FreeList::hasFreeNodes() const
 {
-	return _numAllocated != 0;
+	return _numAllocated > 0;
 }
 
 size_t FreeList::getCapacity() const

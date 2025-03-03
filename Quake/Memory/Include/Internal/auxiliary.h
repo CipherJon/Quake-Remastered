@@ -21,7 +21,7 @@ namespace internal
 	inline constexpr PtrType* alignTo(PtrType* value, size_t alignment)
 	{
 		return(reinterpret_cast<PtrType*>
-			(alignTo(reinterpret_cast<Byte>(value), alignment)));
+			(alignTo(reinterpret_cast<size_t>(value), alignment)));
 	}
 
 	template<typename SizeType = size_t>
@@ -33,7 +33,7 @@ namespace internal
 	template<typename PtrType = internal::Byte*>
 	constexpr bool isAlignedTo(PtrType* value, size_t alignment)
 	{
-		return(reinterpret_cast<PtrType>(value) & (alignment - 1)) == 0;
+		return(reinterpret_cast<size_t>(value) & (alignment - 1)) == 0;
 	}
 
 	template<typename SizeType = size_t>

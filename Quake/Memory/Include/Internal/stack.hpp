@@ -13,7 +13,7 @@ namespace internal
 		void pop(void);
 		void clear(void);
 
-		T& getTop(void) const;
+		T& getTop(void);
 		size_t getCapacity(void) const;
 		size_t getSize(void) const;
 	private:

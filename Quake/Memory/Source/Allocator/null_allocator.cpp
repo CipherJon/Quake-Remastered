@@ -2,14 +2,14 @@
 
 Block NullAllocator::allocate(size_t size)
 {
-	return(UNALLOCATED_BLOCK);
+	return Block(nullptr, 0);
 }
 
 void NullAllocator::deallocate(Block& block)
 {
 }
 
-QBool NullAllocator::owns(Block block)
+QBool NullAllocator::owns(Block block) const
 {
 	return false;
 }
