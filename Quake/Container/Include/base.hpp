@@ -1,6 +1,6 @@
 #pragma once
 
-struct ContigiousIterator;
+struct ContiguousIterator;
 struct LinkedIterator;
 
 #define DEFAULT_CONTAINER_SIZE 16
@@ -17,4 +17,4 @@ public:
 	typedef TAllocator				Allocator;
 };
 
-#include "..\Source\base.inl"
+#include "../Source/base.inl"

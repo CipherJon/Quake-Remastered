@@ -8,12 +8,12 @@
 #include "base.hpp"
 #include "iterator.hpp"
 
-#include "..\..\Auxiliary\Include\string_aux.h"
-#include "..\..\Auxiliary\Include\algorithm.h"
+#include "../../Auxiliary/Include/string_aux.h"
+#include "../../Auxiliary/Include/algorithm.h"
 
-//#include "..\..\Math\Include\math.h"
+//#include "../../Math/Include/math.h"
 
-#include "..\..\Memory\Include\Allocator\mallocator.h"
+#include "../../Memory/Include/Allocator/mallocator.h"
 
 #define DEFAULT_STRING_SIZE	32
 #define STRING_RESERVE_SIZE 8
@@ -111,7 +111,7 @@ public:
 	Basic_String substring(const Iterator iterator) const;
 	Basic_String substring(const Iterator begin, const Iterator end) const;
 
-	Iterator find(Character ch, Sensitivity sensitivty = STR_SENSITIVE) const;
+	Iterator find(Character ch, Sensitivity sensitivity = STR_SENSITIVE) const;
 	//Iterator find(const String string, Sensitivity sensitivty = STR_SENSITIVE) const;
 	//Iterator find(const Basic_String& string, Sensitivity sensitivty = STR_SENSITIVE) const;
 
@@ -223,7 +223,7 @@ private:
 	QBool _comesBefore(TIterator begin, TIterator end) const;
 
 	CharChecker _getCharChecker(Sensitivity sensitivity) const;
-	StrChecker _getStrChecker(Sensitivity Sensitivity) const;
+	StrChecker _getStrChecker(Sensitivity sensitivity) const;
 	size_t _getSearchBegin(Direction direction) const;
 	size_t _getSearchEnd(Direction direction) const;
 	QBool _endNotReached(size_t index, size_t end, Direction direction) const;

@@ -17,7 +17,7 @@ public:
 
 	operator bool() const;
 	void operator=(bool b);
-	//bool operator==(const QBool& qbool) const;
+	bool operator==(const QBool& qbool) const;
 	bool operator!=(const QBool& qbool) const;
 	bool operator<(const QBool& qbool) const;
 	bool operator>(const QBool& qbool) const;
@@ -28,5 +28,5 @@ private:
 	bool _bool;
 };
 
-#define QTRUE (QBool)true
-#define QFALSE (QBool)false
+#define QTRUE QBool(true)
+#define QFALSE QBool(false)

@@ -4,7 +4,7 @@
 
 #include "qbool.h"
 
-#include "..\..\common.h"
+#include "../../common.h"
 
 typedef size_t Distance;
 
@@ -294,4 +294,4 @@ typedef BidirectionalArrayIterator<float64> DoubleIterator;
 typedef BidirectionalArrayIterator<char> CharacterIterator;
 typedef BidirectionalArrayIterator<unsigned char> UnsignedCharacterIterator;
 
-#include "..\Source\iterator.inl"
+#include "../Source/iterator.inl"

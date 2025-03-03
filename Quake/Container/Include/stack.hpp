@@ -4,10 +4,10 @@
 
 #include "base.hpp"
 
-#include "..\..\Auxiliary\Include\algorithm.h"
+#include "../../Auxiliary/Include/algorithm.h"
 
-#include "..\..\Memory\Include\Allocator\mallocator.h"
-#include "..\..\Memory\Include\Allocator\pool_allocator.hpp"
+#include "../../Memory/Include/Allocator/mallocator.h"
+#include "../../Memory/Include/Allocator/pool_allocator.hpp"
 
 template<typename Type,
 	typename TAllocator>
@@ -123,4 +123,4 @@ template<typename Type,
 	typename TAllocator>
 using Stk_Node = typename Stack<Type, TAllocator>::Node*;
 
-#include "..\Source\stack.inl"
+#include "../Source/stack.inl"

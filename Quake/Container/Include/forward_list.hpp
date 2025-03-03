@@ -5,10 +5,10 @@
 #include "base.hpp"
 #include "iterator.hpp"
 
-#include "..\..\Auxiliary\Include\algorithm.h"
+#include "../../Auxiliary/Include/algorithm.h"
 
-#include "..\..\Memory\Include\Allocator\pool_allocator.hpp"
-#include "..\..\Memory\Include\Allocator\mallocator.h"
+#include "../../Memory/Include/Allocator/pool_allocator.hpp"
+#include "../../Memory/Include/Allocator/mallocator.h"
 
 #define NULL_NODE nullptr
 
@@ -66,8 +66,10 @@ public:
 	Iterator find(ConstReference reference) const;
 	QBool has(ConstReference reference) const;
 
-	//ForwardList reversed() const;
-	//void reverse() const;
+	// Uncomment and implement if needed
+	// ForwardList reversed() const;
+	// void reverse();
+
 	void clear();
 	void copy(const Container& other);
 	void swap(ForwardList& other);
@@ -150,4 +152,4 @@ template<typename T,
 using FL_Node = typename ForwardList<T, A>::Node*;
 
 
-#include "..\Source\forward_list.inl"
+#include "../Source/forward_list.inl"

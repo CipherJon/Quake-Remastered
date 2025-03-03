@@ -4,10 +4,10 @@
 #include "iterator.hpp"
 #include "ccontainers.h"
 
-#include "..\..\Auxiliary\Include\algorithm.h"
+#include "../../Auxiliary/Include/algorithm.h"
 
-#include "..\..\Memory\Include\Allocator\pool_allocator.hpp"
-#include "..\..\Memory\Include\Allocator\mallocator.h"
+#include "../../Memory/Include/Allocator/pool_allocator.hpp"
+#include "../../Memory/Include/Allocator/mallocator.h"
 
 #define VECTOR_RESERVE_SIZE 5
 
@@ -135,4 +135,4 @@ using Vec_CArray = typename Vector<T, A>::cArray;
 template<typename T, typename A>
 using Vec_Array = typename Vector<T, A>::Array;
 
-#include "..\Source\vector.inl"
+#include "../Source/vector.inl"
