@@ -5,7 +5,7 @@ namespace internal
 	template<typename TAllocator,
 		size_t maxBatch>
 	BatchQueue<TAllocator, maxBatch>::BatchQueue(TAllocator* parent, QBool flushes)
-		: _parent(parent), _flags(), _numQueued(), _hasFlushed(false), _flushOnClear(flushes)
+		: _parent(parent), _flags(), _numQueued(0), _hasFlushed(false), _flushOnClear(flushes)
 	{
 	}
 
@@ -29,7 +29,7 @@ namespace internal
 			}
 		}
 		_flags.clear();
-		_numQueued--;
+		_numQueued = 0;
 		_hasFlushed = true;
 	}
 
@@ -81,14 +81,14 @@ namespace internal
 			{
 				if (addressMatch(block.address, _queue[i].address))
 				{
-					_queue[i] = nullptr;
+					_queue[i] = Block();
 					_flags[i] = DEQUEUED;
 					_numQueued--;
-					return(i);
+					return i;
 				}
 			}
 		}
-		return(BATCH_NULL_INDEX);
+		return BATCH_NULL_INDEX;
 	}
 
 	template<typename TAllocator,
@@ -97,10 +97,13 @@ namespace internal
 	{
 		if (_isQueued(index))
 		{
-			_queue[i] = nullptr;
-			_flags[i] = DEQUEUED;
+			Block& block = _queue[index];
+			_queue[index] = Block();
+			_flags[index] = DEQUEUED;
 			_numQueued--;
+			return block;
 		}
+		throw std::out_of_range("Index out of range");
 	}
 
 	template<typename TAllocator,
@@ -122,13 +125,14 @@ namespace internal
 
 	template<typename TAllocator,
 		size_t maxBatch>
-		void BatchQueue<TAllocator, maxBatch>::clear()
+	void BatchQueue<TAllocator, maxBatch>::clear()
 	{
 		for (size_t i = 0; i < maxBatch; i++)
 		{
 			if (_isQueued(i))
 			{
-				delete _queue[i].address;
+				delete[] _queue[i].address;
+				_queue[i].address = nullptr;
 			}
 		}
 		_flags.clear();
@@ -139,14 +143,14 @@ namespace internal
 		size_t maxBatch>
 	QBool BatchQueue<TAllocator, maxBatch>::isFull() const
 	{
-		return(_flags.all());
+		return _flags.all();
 	}
 
 	template<typename TAllocator,
 		size_t maxBatch>
 	QBool BatchQueue<TAllocator, maxBatch>::isEmpty() const
 	{
-		return(!_numQueued);
+		return _numQueued == 0;
 	}
 
 	template<typename TAllocator,
@@ -160,28 +164,28 @@ namespace internal
 		size_t maxBatch>
 	size_t BatchQueue<TAllocator, maxBatch>::getMaxBatchSize() const
 	{
-		return(maxBatch);
+		return maxBatch;
 	}
 
 	template<typename TAllocator,
 		size_t maxBatch>
 	size_t BatchQueue<TAllocator, maxBatch>::getNumQueued() const 
 	{
-		return(_numQueued);
+		return _numQueued;
 	}
 
 	template<typename TAllocator,
 		size_t maxBatch>
 	QBool BatchQueue<TAllocator, maxBatch>::hasFlushed() const
 	{
-		return(_hasFlushed);
+		return _hasFlushed;
 	}
 
 	template<typename TAllocator,
 		size_t maxBatch>
 	QBool BatchQueue<TAllocator, maxBatch>::flushesOnClear() const
 	{
-		return(_flushOnClear);
+		return _flushOnClear;
 	}
 
 	template<typename TAllocator, 
@@ -198,14 +202,14 @@ namespace internal
 		size_t maxBatch>
 	QBool BatchQueue<TAllocator, maxBatch>::_isQueued(size_t index) const 
 	{
-		return(_flags[index] == QUEUED);
+		return _flags[index] == QUEUED;
 	}
 
 	template<typename TAllocator,
 		size_t maxBatch>
 	QBool BatchQueue<TAllocator, maxBatch>::_isDequeued(size_t index) const 
 	{
-		return(_flags[index] == DEQUEUED);
+		return _flags[index] == DEQUEUED;
 	}
 
 	template<typename TAllocator,
@@ -214,7 +218,7 @@ namespace internal
 	{
 		if (_hasFlushed)
 		{
-			_hasFlushed.setFalse();
+			_hasFlushed = false;
 		}
 	}
 }

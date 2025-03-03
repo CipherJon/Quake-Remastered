@@ -19,9 +19,13 @@ void OpenGLContext::registerClass(HINSTANCE hInstance)
 		wc.hCursor = LoadCursor(NULL, IDC_ARROW);
 		wc.hbrBackground = (HBRUSH)(COLOR_MENUBAR + 1);
 		wc.lpszMenuName = NULL;
-		wc.lpszClassName = CLASS_NAME;
+		wc.lpszClassName = TEXT(CLASS_NAME);
 
-		RegisterClassEx(&wc);
+		if (!RegisterClassEx(&wc))
+		{
+			MessageBox(NULL, TEXT("Failed to register window class."), TEXT("Error"), MB_ICONERROR);
+			return;
+		}
 		_isRegistered = true;
 	}
 }
@@ -31,8 +35,14 @@ QBool OpenGLContext::_initGLEW(HINSTANCE hInstance)
 	if (!_isInitialized)
 	{
 		registerClass(hInstance);
-		HWND wndFake = CreateWindow((LPCWSTR)CLASS_NAME, (LPCWSTR)"FAKE", WS_OVERLAPPEDWINDOW | WS_MAXIMIZE | WS_CLIPCHILDREN,
+		HWND wndFake = CreateWindow(TEXT(CLASS_NAME), TEXT("FAKE"), WS_OVERLAPPEDWINDOW | WS_MAXIMIZE | WS_CLIPCHILDREN,
 			0, 0, CW_USEDEFAULT, CW_USEDEFAULT, NULL, NULL, hInstance, NULL);
+		if (!wndFake)
+		{
+			MessageBox(NULL, TEXT("Failed to create fake window."), TEXT("Error"), MB_ICONERROR);
+			return false;
+		}
+
 		_hdc = GetDC(wndFake);
 
 		PixelFormatDescriptor pfd;
@@ -48,24 +58,38 @@ QBool OpenGLContext::_initGLEW(HINSTANCE hInstance)
 		int pixelFormat = ChoosePixelFormat(_hdc, &pfd);
 		if (!pixelFormat || !SetPixelFormat(_hdc, pixelFormat, &pfd))
 		{
+			MessageBox(NULL, TEXT("Failed to set pixel format."), TEXT("Error"), MB_ICONERROR);
+			ReleaseDC(wndFake, _hdc);
+			DestroyWindow(wndFake);
 			return false;
 		}
 
 		HGLRC hrcFake = wglCreateContext(_hdc);
+		if (!hrcFake)
+		{
+			MessageBox(NULL, TEXT("Failed to create fake OpenGL context."), TEXT("Error"), MB_ICONERROR);
+			ReleaseDC(wndFake, _hdc);
+			DestroyWindow(wndFake);
+			return false;
+		}
+
 		wglMakeCurrent(_hdc, hrcFake);
 		bool result = true;
-		if (!_isInitialized)
+		if (glewInit() != GLEW_OK)
 		{
-			if (glewInit() != GLEW_OK)
-			{
-				MessageBox(*_hwnd, (LPCWSTR)"Could not initialize GLEW.", (LPCWSTR)"Fatal Error", MB_ICONERROR);
-				result = false;
-			}
+			MessageBox(NULL, TEXT("Could not initialize GLEW."), TEXT("Fatal Error"), MB_ICONERROR);
+			result = false;
+		}
+		else
+		{
 			_isInitialized = true;
 		}
+
 		wglMakeCurrent(NULL, NULL);
 		wglDeleteContext(hrcFake);
+		ReleaseDC(wndFake, _hdc);
 		DestroyWindow(wndFake);
 		return result;
 	}
+	return true;
 }

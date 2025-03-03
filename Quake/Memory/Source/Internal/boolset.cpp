@@ -3,6 +3,7 @@
 namespace internal
 {
 	BoolSet::BoolSet()
+		: _bools(nullptr), _size(0)
 	{
 	}
 
@@ -18,7 +19,7 @@ namespace internal
 	BoolSet::BoolSet(const BoolSet& bSet)
 		: _bools(new QBool[bSet._size]), _size(bSet._size)
 	{	
-		*this = bSet;
+		internal::copy(bSet._bools, _size, _bools);
 	}
 
 	BoolSet::~BoolSet()
@@ -28,26 +29,22 @@ namespace internal
 
 	void BoolSet::reset()
 	{
-		size_t size = _size;
-		for (size_t i = 0; i < size; i++)
+		for (size_t i = 0; i < _size; i++)
 		{
-			if (_bools[i])
-			{
-				_bools[i] = false;
-			}
+			_bools[i] = false;
 		}
 	}
 
 	void BoolSet::clear()
 	{
-		_size = 0;
 		delete[] _bools;
+		_bools = nullptr; // Prevent dangling pointer
+		_size = 0;
 	}
 
 	QBool BoolSet::all() const
 	{
-		size_t size = _size;
-		for (size_t i = 0; i < size; i++)
+		for (size_t i = 0; i < _size; i++)
 		{
 			if (!_bools[i])
 			{
@@ -59,8 +56,7 @@ namespace internal
 
 	QBool BoolSet::any() const
 	{
-		size_t size = _size;
-		for (size_t i = 0; i < size; i++)
+		for (size_t i = 0; i < _size; i++)
 		{
 			if (_bools[i])
 			{
@@ -72,8 +68,7 @@ namespace internal
 
 	QBool BoolSet::none() const
 	{
-		size_t size = _size;
-		for (size_t i = 0; i < size; i++)
+		for (size_t i = 0; i < _size; i++)
 		{
 			if (_bools[i])
 			{
@@ -85,26 +80,33 @@ namespace internal
 
 	void BoolSet::operator=(const BoolSet& bSet)
 	{
-		_size = bSet._size;
-		_bools = new QBool[_size];
-		//std::copy(bSet._bools, bSet._bools + _size, _bools);
-		internal::copy(bSet._bools, _size, _bools);
+		if (this != &bSet) // Handle self-assignment
+		{
+			delete[] _bools; // Free existing memory
+			_size = bSet._size;
+			_bools = new QBool[_size];
+			internal::copy(bSet._bools, _size, _bools);
+		}
 	}
 
 	QBool& BoolSet::operator[](size_t index) const
 	{
+		if (index >= _size)
+		{
+			throw std::out_of_range("Index out of range");
+		}
 		return _bools[index];
 	}
 
 	void BoolSet::resize(size_t amount)
 	{
-		size_t oldSize = _size;
-		size_t newSize = amount + oldSize;
+		size_t newSize = _size + amount;
 		QBool* newBools = new QBool[newSize];
-		for (size_t i = 0; i < oldSize; i++)
+		for (size_t i = 0; i < _size; i++)
 		{
 			newBools[i] = _bools[i];
 		}
+		delete[] _bools; // Free old memory
 		_bools = newBools;
 		_size = newSize;
 	}
@@ -112,8 +114,7 @@ namespace internal
 	size_t BoolSet::count() const
 	{
 		size_t count = 0;
-		size_t size = _size;
-		for (size_t i = 0; i < size; i++)
+		for (size_t i = 0; i < _size; i++)
 		{
 			if (_bools[i])
 			{

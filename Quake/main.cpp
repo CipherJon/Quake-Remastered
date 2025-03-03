@@ -1,7 +1,6 @@
-
-#include <GL\glew.h>
-#include <GLFW\glfw3.h>
-#include <GLM\glm.hpp>
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
 
 #include <iostream>
 #include <limits>
@@ -26,7 +25,7 @@
 
 #include "UI/Include/OpenGL/opengl_context.h"
 
-#include <GTest\gtest.h>
+#include <gtest/gtest.h>
 
 #define GTEST
 
@@ -34,9 +33,18 @@
 
 int main()
 {
+	// Initialize GLEW
 	glewExperimental = GL_TRUE;
-	glewInit();
-	glfwInit();
+	if (glewInit() != GLEW_OK) {
+		std::cerr << "Failed to initialize GLEW" << std::endl;
+		return -1;
+	}
+
+	// Initialize GLFW
+	if (!glfwInit()) {
+		std::cerr << "Failed to initialize GLFW" << std::endl;
+		return -1;
+	}
 
 #ifdef GTEST
 	::testing::InitGoogleTest(&__argc, __argv);
