@@ -16,7 +16,7 @@ namespace internal
 	class BatchQueue
 	{
 	public:
-		BatchQueue(TAllocator* parent);
+		BatchQueue(TAllocator* parent, QBool flushes);
 		~BatchQueue();
 
 		void flush();
@@ -28,6 +28,9 @@ namespace internal
 		bool owns(Block block) const;
 		void clear();
 		bool isFull() const;
+		bool isEmpty() const;
+		void setFlushesOnClear(QBool flushes);
+		QBool flushesOnClear() const;
 
 		size_t getMaxBatchSize() const;
 		size_t getNumQueued() const;
@@ -42,5 +45,6 @@ namespace internal
 		BoolSet _flags;
 		size_t _numQueued;
 		bool _hasFlushed;
+		QBool _flushOnClear;
 	};
 }
