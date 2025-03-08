@@ -1,4 +1,4 @@
-#include "..\Include\string.hpp"
+#include "Container/Include/qstring.h"
 
 //QBool isSensitive(Sensitivity sensitivity)
 //{
@@ -15,17 +15,17 @@ const Basic_String<T, A> Basic_String<T, A>::EMPTY_STRING(nullptr);
 
 template<typename T, typename A>
 Basic_String<T, A>::Basic_String(size_t length)
-	: _string(nullptr), _allocator(), _maxLength(), _length()
+	: _allocator(), _maxLength(0), _length(0)
 {
-	//_string = _allocator.allocate(sizeof(Character) * length);
-	if (length != 0)
-	{
-		size_t zeroLen = length + 1;
-		_maxLength = zeroLen;
-		_length = 1;
-		Block block = _allocator.allocate(sizeof(Character) * zeroLen);
+	size_t bufferSize = length + 1;
+	Block block = _allocator.allocate(sizeof(Character) * bufferSize);
+	if (block.memory) {
 		_string = static_cast<String>(block.memory);
+		_maxLength = bufferSize;
+		_length = 1;
 		_string[0] = '\0';
+	} else {
+		_string = nullptr;
 	}
 }
 
@@ -232,7 +232,7 @@ return EMPTY_STRING;
 }
 
 template<typename T, typename A>
-Str_Iterator<T, A>
+typename Basic_String<T, A>::Iterator
 Basic_String<T, A>::find(Character ch, Sensitivity sensitivity) const
 {
 	size_t begin = 0;
@@ -741,7 +741,7 @@ float64 Basic_String<T, A>::toFloat64() const
 
 template<typename T, typename A>
 const Str_String<T, A>
-Basic_String<T, A>::toCString() const
+typename Basic_String<T, A>::String Basic_String<T, A>::toCString() const
 {
 	return _string;
 }
@@ -931,14 +931,14 @@ void Basic_String<T, A>::operator<<(std::ifstream& input)
 }
 
 template<typename T, typename A>
-const Str_Iterator<T, A>
+const typename Basic_String<T, A>::Iterator
 Basic_String<T, A>::begin() const
 {
 	return Iterator(&_string[0]);
 }
 
 template<typename T, typename A>
-const Str_Iterator<T, A>
+const typename Basic_String<T, A>::Iterator
 Basic_String<T, A>::end() const
 {
 	return Iterator(&_string[_length - 1]);
@@ -1104,7 +1104,7 @@ QBool Basic_String<T, A>::_checkReverseIterators(const ReverseIterator begin, co
 template<typename T, typename A>
 Comparison Basic_String<T, A>::_compare(const Character* a, const Character* b, size_t length, const CharChecker& checker) const
 {
-	const Character* c1 = A;
+	const Character* c1 = a;
 	const Character* c2 = b;
 
 	size_t count = 0;
@@ -1169,7 +1169,7 @@ QBool Basic_String<T, A>::_comesBefore(TIterator begin, TIterator end) const
 }
 
 template<typename T, typename A>
-	std::ostream& operator<<(std::ostream& os, const Basic_String<T, A>& string)
+std::ostream& operator<<(std::ostream& os, const Basic_String<T, A>& string)
 {
-	return os << string._string;
+	return os << string.toCString();
 }
