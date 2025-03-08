@@ -113,7 +113,7 @@ Basic_String<T, A>::Basic_String(std::ifstream& ifstream)
 	ifstream.seekg(0, std::ios::end);
 	size_t length = ifstream.tellg();
 	_maxLength = length + 1;
-	_length == _maxLength - 1;
+	_length = _maxLength - 1;
 	ifstream.seekg(0, std::ios::beg);
 	Block block = _allocator.allocate(sizeof(Value) * (_maxLength));
 	_string = static_cast<String>(block.memory);
@@ -189,8 +189,8 @@ Basic_String<T, A>::substring(size_t start) const
 	if (_checkIndex(start))
 	{
 		size_t len = _length - start - 1;
-		Character* start = _string + start;
-		return Basic_String(start);
+		Character* str_start = _string + start;
+		return Basic_String(str_start);
 	}
 	return EMPTY_STRING;
 }
@@ -228,6 +228,7 @@ Basic_String<T, A>::substring(const Iterator begin, const Iterator end) const
 	{
 		return Basic_String(begin, end);
 	}
+return EMPTY_STRING;
 }
 
 template<typename T, typename A>
@@ -1101,10 +1102,10 @@ QBool Basic_String<T, A>::_checkReverseIterators(const ReverseIterator begin, co
 }
 
 template<typename T, typename A>
-Comparison Basic_String<T, A>::_compare(const Character* A, const Character* B, size_t length, const CharChecker& checker) const
+Comparison Basic_String<T, A>::_compare(const Character* a, const Character* b, size_t length, const CharChecker& checker) const
 {
 	const Character* c1 = A;
-	const Character* c2 = B;
+	const Character* c2 = b;
 
 	size_t count = 0;
 	while (length)
