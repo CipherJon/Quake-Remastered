@@ -3,12 +3,7 @@
 
 namespace internal
 {
-    // Assuming these are defined elsewhere; providing placeholders if not
-    enum QBool { QFalse = 0, QTrue = 1 }; // Example definition
-    
-    // Define QUEUED and DEQUEUED as constants for clarity
-    static constexpr bool QUEUED = true;
-    static constexpr bool DEQUEUED = false;
+    // Use header-defined macros instead of constexpr
     template<typename TAllocator, std::size_t maxBatch>
     BatchQueue<TAllocator, maxBatch>::BatchQueue(TAllocator* parent, QBool flushes)
         : _parent(parent), _flags(), _numQueued(0), _hasFlushed(flushes), _flushOnClear(flushes)
@@ -92,7 +87,7 @@ namespace internal
         return BATCH_NULL_INDEX; // Assuming defined elsewhere, e.g., static_cast<size_t>(-1)
     }
     template<typename TAllocator, size_t maxBatch>
-    Block BatchQueue<TAllocator, maxBatch>::dequeue(size_t index)
+    Block& BatchQueue<TAllocator, maxBatch>::dequeue(size_t index)
     {
         if (index >= maxBatch)
         {
@@ -132,11 +127,11 @@ namespace internal
         {
             if (_isQueued(i))
             {
-                delete[] _queue[i].address;
-                _queue[i].address = nullptr;
+                _parent->deallocate(_queue[i]);
+                _queue[i] = Block();
             }
         }
-        _flags.reset(); // Changed to reset() for std::bitset consistency
+        _flags.reset();
         _numQueued = 0;
     }
 
@@ -184,8 +179,8 @@ namespace internal
         std::string message = "BatchQueue: \n";
         message += "\tMax Batch Size: " + std::to_string(maxBatch) + "\n";
         message += "\tNumber Queued: " + std::to_string(queue._numQueued) + "\n";
-        message += "\tFlushes on Clear: " + std::to_string(static_cast<int>(_flushOnClear)) + "\n";
-        message += "\tHas Flushed: " + std::to_string(static_cast<int>(_hasFlushed)) + "\n";
+        message += "\tFlushes on Clear: " + std::to_string(static_cast<int>(queue.flushesOnClear())) + "\n";
+        message += "\tHas Flushed: " + std::to_string(static_cast<int>(queue.hasFlushed())) + "\n";
         os << message;
         return os;
     }

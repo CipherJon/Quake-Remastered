@@ -61,6 +61,7 @@ namespace sys
 		int getWidth(void) const;
 		int getHeight(void) const;
 		bool isOpen(void) const;
+		bool shouldClose(void) const;
 
 	private:
 		GLFWwindow*				_glfwWindow;

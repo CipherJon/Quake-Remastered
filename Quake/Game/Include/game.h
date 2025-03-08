@@ -20,16 +20,15 @@ Game
 class Game
 {
 public:
-	// Constructor
-	explicit Game(const StringVec& argv);
+	explicit Game(const sys::StringVec& argv);
+	~Game();
 
-	// Initialize the game
-	void init(void);
-
-	// Register a variable
-	void registerVariable(Cvar variable);
-
+	void run();
+	
 private:
-	StringVec _argv;       // Command-line arguments
-	sys::Window _window;   // Game window
+	void update(double deltaTime);
+	void render();
+	
+	sys::StringVec _argv;
+	sys::Window _window;
 };

@@ -106,4 +106,12 @@ namespace sys
 	{
 		return _isOpen;
 	}
+
+	bool Window::shouldClose(void) const
+	{
+		if (_glfwWindow) {
+			return glfwWindowShouldClose(_glfwWindow);
+		}
+		return true; // Close if window not initialized
+	}
 }

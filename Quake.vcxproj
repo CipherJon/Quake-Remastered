@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+﻿﻿﻿﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -65,13 +65,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\Joshua\Dropbox\Libraries\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\Joshua\Dropbox\Libraries\Source\GL;C:\Users\Joshua\Dropbox\Libraries\Source\GLFW;C:\Users\Joshua\Dropbox\Libraries\Source\SOIL VS 2015\Debug;C:\Users\Joshua\Dropbox\Libraries\Source\GTest;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)ThirdParty\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)ThirdParty\Lib\$(PlatformTarget)\$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\Josh\Dropbox\Libraries\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\Josh\Dropbox\Libraries\Source\GL;C:\Users\Josh\Dropbox\Libraries\Source\GLFW;C:\Users\Josh\Dropbox\Libraries\Source\SOIL VS 2015\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)ThirdParty\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)ThirdParty\Lib\$(PlatformTarget)\$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

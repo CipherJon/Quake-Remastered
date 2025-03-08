@@ -11,13 +11,17 @@
 
 namespace internal
 {
-	template<typename TAllocator, 
+	enum class QBool { QFalse, QTrue };
+
+	template<typename TAllocator,
 		size_t maxBatch = DEFAULT_BATCH_SIZE>
 	class BatchQueue
 	{
 	public:
 		BatchQueue(TAllocator* parent, QBool flushes);
 		~BatchQueue();
+		
+		friend std::ostream& operator<<(std::ostream& os, const BatchQueue& queue);
 
 		void flush();
 		void queue(Block& block);
